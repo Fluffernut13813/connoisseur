@@ -1,0 +1,87 @@
+import sys
+
+class Fluffernut:
+    def __init__(self):
+        self.commands = {}
+        self.plugins = []
+
+    def register_command(self, command_name, function):
+        """Register a new command to be used by users."""
+        self.commands[command_name] = function
+
+    def load_plugin(self, plugin):
+        """Load a new plugin which might add new commands."""
+        if plugin not in self.plugins:
+            self.plugins.append(plugin)
+            plugin(self)
+        else:
+            print(f"Plugin {plugin.__name__} is already loaded.")
+
+    def execute_command(self, command_name, *args):
+        """Execute a command."""
+        if command_name in self.commands:
+            try:
+                self.commands[command_name](*args)
+            except Exception as e:
+                print(f"Error executing {command_name}: {e}")
+        else:
+            print(f"Command '{command_name}' not found. Try 'help' for a list of commands.")
+
+    def show_help(self):
+        """Show available commands."""
+        print("Available commands:")
+        for command in self.commands:
+            print(f"- {command}")
+            
+    def run(self):
+        """Start the interactive shell to receive user input."""
+        print("Fluffernut: Your AI Companion is here!")
+        while True:
+            user_input = input("Fluffernut> ").strip().lower()
+            if user_input == "exit":
+                print("Goodbye! Fluffernut is powering off.")
+                sys.exit()
+            elif user_input == "help":
+                self.show_help()
+            else:
+                parts = user_input.split()
+                command = parts[0]
+                args = parts[1:]
+                self.execute_command(command, *args)
+
+
+# Example of a plugin that extends Fluffernut's capabilities
+def math_plugin(fluffernut):
+    def add(a, b):
+        try:
+            result = float(a) + float(b)
+            print(f"The result of {a} + {b} is: {result}")
+        except ValueError:
+            print("Invalid input. Please provide numbers.")
+    
+    def subtract(a, b):
+        try:
+            result = float(a) - float(b)
+            print(f"The result of {a} - {b} is: {result}")
+        except ValueError:
+            print("Invalid input. Please provide numbers.")
+    
+    fluffernut.register_command("add", add)
+    fluffernut.register_command("subtract", subtract)
+
+def greeting_plugin(fluffernut):
+    def greet(name):
+        print(f"Hello, {name}! Fluffernut is happy to meet you.")
+    
+    fluffernut.register_command("greet", greet)
+
+
+if __name__ == "__main__":
+    fluffernut = Fluffernut()
+
+    # Load some initial plugins
+    fluffernut.load_plugin(math_plugin)
+    fluffernut.load_plugin(greeting_plugin)
+
+    # Start Fluffernut AI companion interactive mode
+    fluffernut.run()
