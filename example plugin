@@ -1,0 +1,13 @@
+import random
+
+def random_plugin(fluffernut):
+    def generate_random(min_val, max_val):
+        try:
+            min_val = int(min_val)
+            max_val = int(max_val)
+            result = random.randint(min_val, max_val)
+            print(f"Random number between {min_val} and {max_val}: {result}")
+        except ValueError:
+            print("Please provide valid integers for the range.")
+    
+    fluffernut.register_command("random", generate_random)
