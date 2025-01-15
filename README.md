@@ -2,7 +2,7 @@
 - # Introduction:
 - **Fluffernut**: Ai companion, coding connoisseur
 
-- **Description**: Sure! Here's a starting point for a flexible, expandable AI companion named Fluffernut. The core idea here is to design a framework where users can easily add new features and functionality without altering the main structure. The code will be modular and encourage further development.
+- **Description**: Fluffernut. The core idea here is to design a framework where users can easily add new features and functionality without altering the main structure. The code will be modular and encourage further development.
 
 - We'll build it in Python, and use a command-based interface to allow users to interact with Fluffernut. Users will also be able to extend it with new commands or plugins.
 
